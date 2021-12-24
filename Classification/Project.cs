@@ -15,10 +15,12 @@ namespace Dialang.Compilation.Classification
 
         private LoggingHandle log;
         private byte[]? cache;
+        private double elapsed;
 
         public string Path { get; }
         public string Name { get; }
         public IReadOnlyCollection<Document> Documents { get; }
+        public double Elapsed => elapsed;
 
         public byte[] Compile()
         {
@@ -44,7 +46,7 @@ namespace Dialang.Compilation.Classification
             }
 
             sw.Stop();
-
+            elapsed += sw.Elapsed.TotalSeconds;
             cache = mem.ToArray();
             log($"Finished compiling into {cache.Length / 1000d:0.00}KB in {sw.Elapsed.TotalSeconds:0.00}s");
 
@@ -63,6 +65,9 @@ namespace Dialang.Compilation.Classification
             DirectoryInfo dir = new DirectoryInfo(path);
             Document buf;
 
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
             foreach (var doc in dir.EnumerateFiles(FileSearch))
             {
                 buf = new Document(doc, log);
@@ -76,6 +81,10 @@ namespace Dialang.Compilation.Classification
             }
 
             Documents = docs;
+
+            sw.Stop();
+            elapsed = sw.Elapsed.TotalSeconds;
+            log($"Finished loading in '{elapsed:0.00} seconds.'");
 
             this.log = log;
         }

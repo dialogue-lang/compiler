@@ -135,6 +135,12 @@ namespace Dialang.Compilation.IO
                 Write(y);
             }
 
+            Write(x.Emotes.Length);
+            foreach (Emote y in x.Emotes)
+            {
+                Write(y);
+            }
+
             Write(x.Formats.Length);
             foreach (Format y in x.Formats)
             {

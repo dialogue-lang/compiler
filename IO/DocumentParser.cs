@@ -199,8 +199,6 @@ namespace Dialang.Compilation.IO
                 case '{':
                     if (!state.HasFlag(ParserState.Event))
                     {
-
-                        log($"Found event!");
                         state |= ParserState.Event;
                         return true;
                     }
@@ -221,7 +219,6 @@ namespace Dialang.Compilation.IO
                 case '[':
                     if (!state.HasFlag(ParserState.Emote))
                     {
-                        log($"Found emote!");
                         state |= ParserState.Emote;
                         return true;
                     }
@@ -242,7 +239,6 @@ namespace Dialang.Compilation.IO
                 case '<':
                     if ((state ^ ParserState.Format) == ParserState.Reading)
                     {
-                        log($"Found color!");
                         state |= ParserState.Color;
                         return true;
                     }
@@ -259,23 +255,21 @@ namespace Dialang.Compilation.IO
                     return false;
 
                 case '|':
-                    if ((state ^ ParserState.Format) == ParserState.Combine)
+                    if (!state.HasFlag(ParserState.Combine))
                     {
-                        log($"Found combine!");
                         state |= ParserState.Combine;
                         return true;
-                    } else if (state.HasFlag(ParserState.Combine))
+                    } else
                     {
+                        //current.Lines[line].Add(new Combine(tempStart, temp.Length));
+                        log($"Combine: {temp.ToString()}");
                         state ^= ParserState.Combine;
                         return true;
                     }
 
-                    return false;
-
                 case '^':
                     if (!state.HasFlag(ParserState.Pause))
                     {
-                        log($"Found pause!");
                         state |= ParserState.Pause;
                         return true;
                     }
@@ -283,17 +277,15 @@ namespace Dialang.Compilation.IO
                     return false;
 
                     //case '*': // Template for later
-                    //    if (state == ParserState.Reading)
+                    //    if (!state.HasFlag(ParserState.FormatBold))
                     //    {
                     //        state |= ParserState.FormatBold;
                     //        return true;
-                    //    } else if (state.HasFlag(ParserState.FormatBold))
+                    //    } else
                     //    {
                     //        state ^= ParserState.FormatBold;
                     //        return true;
                     //    }
-                    //
-                    //    return false;
                     //
                     // TODO: Add support for formatting (*bold*, `italic`, _underline_, ~strikethrough~)
             }
