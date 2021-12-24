@@ -139,7 +139,7 @@ namespace Dialang.Compilation.IO
                 }
             }
 
-            current.Lines[line].Text = sb.ToString();
+            current.Scripts[line].Text = sb.ToString();
             state = ParserState.Reading;
             read = 0;
             reset = false;
@@ -181,7 +181,7 @@ namespace Dialang.Compilation.IO
                     if (int.TryParse(new string(c, 1), out int i))
                     {
                         log($"Pause for {i / 4d:0.00} seconds.");
-                        current.Lines[line].Add(new Pause(read, i));
+                        current.Scripts[line].Add(new Pause(read, i));
                     } else
                     {
                         b.Append(c);
@@ -209,8 +209,8 @@ namespace Dialang.Compilation.IO
                     if (state.HasFlag(ParserState.Event))
                     {
                         state ^= ParserState.Event;
-                        current.Lines[line].Add(new Event(temp.ToString(), tempStart));
-                        log($"Event: {current.Lines[line].Events[^1].Name}");
+                        current.Scripts[line].Add(new Event(temp.ToString(), tempStart));
+                        log($"Event: {current.Scripts[line].Events[^1].Name}");
                         return true;
                     }
 
@@ -229,8 +229,8 @@ namespace Dialang.Compilation.IO
                     if (state.HasFlag(ParserState.Emote))
                     {
                         state ^= ParserState.Emote;
-                        current.Lines[line].Add(new Emote(temp.ToString(), tempStart));
-                        log($"Emote: {current.Lines[line].Emotes[^1].Name}");
+                        current.Scripts[line].Add(new Emote(temp.ToString(), tempStart));
+                        log($"Emote: {current.Scripts[line].Emotes[^1].Name}");
                         return true;
                     }
 

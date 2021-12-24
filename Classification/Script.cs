@@ -4,7 +4,7 @@ using Dialang.Compilation.Exceptions;
 
 namespace Dialang.Compilation.Classification
 {
-    public sealed class Line
+    public sealed class Script
     {
         public string Text { get; set; }
         public Event[] Events { get; set; }
@@ -44,7 +44,7 @@ namespace Dialang.Compilation.Classification
             Pauses = a;
         }
 
-        public Line()
+        public Script()
         {
             Text = "Cool test entry text over here!";
             Events = new Event[] { new Event() };
@@ -53,7 +53,7 @@ namespace Dialang.Compilation.Classification
             Pauses = new Pause[] { new Pause() };
         }
 
-        public Line(string text)
+        public Script(string text)
         {
             Text = text;
             Events = new Event[] { new Event() };
@@ -62,7 +62,7 @@ namespace Dialang.Compilation.Classification
             Pauses = new Pause[] { new Pause() };
         }
 
-        public Line(string text, Event[] events, Emote[] emotes, Format[] formats, Pause[] pauses)
+        public Script(string text, Event[] events, Emote[] emotes, Format[] formats, Pause[] pauses)
         {
             Text = text;
             Events = events;

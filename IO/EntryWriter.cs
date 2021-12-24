@@ -118,14 +118,14 @@ namespace Dialang.Compilation.IO
         {
             Write(x.Name);
 
-            Write(x.Lines.Length);
-            foreach (Line l in x.Lines)
+            Write(x.Scripts.Length);
+            foreach (Script l in x.Scripts)
             {
                 Write(l);
             }
         }
 
-        public void Write(Line x)
+        public void Write(Script x)
         {
             Write(x.Text);
 
