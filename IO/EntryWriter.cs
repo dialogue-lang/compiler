@@ -130,24 +130,25 @@ namespace Dialang.Compilation.IO
             Write(x.Text);
 
             Write(x.Events.Length);
+            Write(x.Emotes.Length);
+            Write(x.Formats.Length);
+            Write(x.Pauses.Length);
+
             foreach (Event y in x.Events)
             {
                 Write(y);
             }
 
-            Write(x.Emotes.Length);
             foreach (Emote y in x.Emotes)
             {
                 Write(y);
             }
 
-            Write(x.Formats.Length);
             foreach (Format y in x.Formats)
             {
                 Write(y);
             }
 
-            Write(x.Pauses.Length);
             foreach (Pause e in x.Pauses)
             {
                 Write(e);
