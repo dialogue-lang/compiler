@@ -6,6 +6,7 @@ namespace Dialang.Compilation
     {
         public string Message { get; }
         public Exception? Exception { get; }
+        public bool Success { get; }
 
         public override string ToString()
         {
@@ -14,16 +15,18 @@ namespace Dialang.Compilation
             return Exception.ToString();
         }
 
-        internal CompileResult(string msg)
+        internal CompileResult(string msg, bool success = true)
         {
             Message = msg;
             Exception = null;
+            Success = success;
         }
 
         internal CompileResult(Exception ex)
         {
             Message = ex.Message;
             Exception = ex;
+            Success = false;
         }
     }
 }
