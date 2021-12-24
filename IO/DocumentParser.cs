@@ -178,7 +178,7 @@ namespace Dialang.Compilation.IO
                     break;
 
                 case ParserState.Reading | ParserState.Pause:
-                    if (int.TryParse(new string(c = ReadNext(r), 1), out int i))
+                    if (int.TryParse(new string(c, 1), out int i))
                     {
                         log($"Pause for {i / 4d:0.00} seconds.");
                         current.Lines[line].Add(new Pause(read, i));
@@ -197,8 +197,10 @@ namespace Dialang.Compilation.IO
             switch (c)
             {
                 case '{':
-                    if ((state ^ ParserState.Format) == ParserState.Reading)
+                    if (!state.HasFlag(ParserState.Event))
                     {
+
+                        log($"Found event!");
                         state |= ParserState.Event;
                         return true;
                     }
@@ -217,8 +219,9 @@ namespace Dialang.Compilation.IO
                     return false;
 
                 case '[':
-                    if ((state ^ ParserState.Format) == ParserState.Reading)
+                    if (!state.HasFlag(ParserState.Emote))
                     {
+                        log($"Found emote!");
                         state |= ParserState.Emote;
                         return true;
                     }
@@ -230,7 +233,7 @@ namespace Dialang.Compilation.IO
                     {
                         state ^= ParserState.Emote;
                         current.Lines[line].Add(new Emote(temp.ToString(), tempStart));
-                        log($"Event: {current.Lines[line].Emotes[^1].Name}");
+                        log($"Emote: {current.Lines[line].Emotes[^1].Name}");
                         return true;
                     }
 
@@ -239,6 +242,7 @@ namespace Dialang.Compilation.IO
                 case '<':
                     if ((state ^ ParserState.Format) == ParserState.Reading)
                     {
+                        log($"Found color!");
                         state |= ParserState.Color;
                         return true;
                     }
@@ -257,6 +261,7 @@ namespace Dialang.Compilation.IO
                 case '|':
                     if ((state ^ ParserState.Format) == ParserState.Combine)
                     {
+                        log($"Found combine!");
                         state |= ParserState.Combine;
                         return true;
                     } else if (state.HasFlag(ParserState.Combine))
@@ -268,8 +273,9 @@ namespace Dialang.Compilation.IO
                     return false;
 
                 case '^':
-                    if ((state ^ ParserState.Format) == ParserState.Pause)
+                    if (!state.HasFlag(ParserState.Pause))
                     {
+                        log($"Found pause!");
                         state |= ParserState.Pause;
                         return true;
                     }
