@@ -5,7 +5,7 @@ namespace Dialang.Compilation
     public struct CompileResult
     {
         public string Message { get; }
-        public Exception? Exception { get; }
+        public Exception Exception { get; }
         public bool Success { get; }
 
         public override string ToString()

@@ -11,7 +11,7 @@ namespace Dialang.Compilation.Classification
         public bool Valid { get; }
         public string Name { get; }
         public string Text { get; }
-        public Hashtable? Entries { get; }
+        public Hashtable Entries { get; }
 
         internal Document(FileInfo info, LoggingHandle log)
         {

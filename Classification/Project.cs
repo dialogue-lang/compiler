@@ -14,7 +14,7 @@ namespace Dialang.Compilation.Classification
         public const string CompiledExtension = ".dlg";
 
         private LoggingHandle log;
-        private byte[]? cache;
+        private byte[] cache;
         private double elapsed;
 
         public string Path { get; }

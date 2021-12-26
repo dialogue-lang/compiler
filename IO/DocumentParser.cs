@@ -14,7 +14,7 @@ namespace Dialang.Compilation.IO
     {
         private readonly LoggingHandle log;
         private readonly StringReader s;
-        private string? str;
+        private string str;
         private ParserState state;
         private bool disposed;
         private Hashtable entries;

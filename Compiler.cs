@@ -10,6 +10,13 @@ namespace Dialang.Compilation
     {
         public Project Project { get; }
 
+        private string TrimEndingDirectorySeparator(string dir)
+        {
+            if (dir.EndsWith('\\'))
+                return dir.Remove(dir.Length - 1);
+            return dir;
+        }
+
         public CompileResult Compile(string output)
         {
             try
@@ -18,7 +25,7 @@ namespace Dialang.Compilation
                 if (!Directory.Exists(dir))
                     Directory.CreateDirectory(dir);
 
-                using FileStream fs = File.Create($"{Path.TrimEndingDirectorySeparator(output)}\\{Project.Name}.dlg");
+                using FileStream fs = File.Create($"{TrimEndingDirectorySeparator(output)}\\{Project.Name}.dlg");
                 byte[] bin = Project.Compile();
                 fs.Write(bin, 0, bin.Length);
                 return new CompileResult("Success.");
