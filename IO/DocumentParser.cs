@@ -54,7 +54,6 @@ namespace Dialang.Compilation.IO
                 return true;
             }
 
-            log("");
             log(str);
 
             SwitchState();
@@ -120,7 +119,7 @@ namespace Dialang.Compilation.IO
         private void PushCurrent()
         {
             log("<< Push Entry >>");
-            entries.Add(current.GetHashCode(), current);
+            entries.Add(current.Name, current);
         }
 
         private void Read()

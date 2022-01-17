@@ -89,7 +89,7 @@ namespace Dialang.Compilation.IO
         public void Write(string x)
         {
             s.Write(BitConverter.GetBytes(x.Length));
-            s.Write(Encoding.Unicode.GetBytes(x));
+            s.Write(Encoding.UTF8.GetBytes(x));
         }
 
         public void Write(string x, Encoding enc)
@@ -104,13 +104,9 @@ namespace Dialang.Compilation.IO
 
         public void Write(Document x)
         {
-            Write(x.Name);
-
-            Write(x.Entries!.Count);
-            foreach (object k in x.Entries.Keys)
+            foreach (object k in x.Entries.Values)
             {
-                Write(k.GetHashCode());
-                Write((Entry)x.Entries[k]!);
+                Write((Entry)k);
             }
         }
 

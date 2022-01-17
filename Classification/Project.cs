@@ -20,6 +20,7 @@ namespace Dialang.Compilation.Classification
         public string Path { get; }
         public string Name { get; }
         public IReadOnlyCollection<Document> Documents { get; }
+        public int Count { get; }
         public double Elapsed => elapsed;
 
         public byte[] Compile()
@@ -38,7 +39,7 @@ namespace Dialang.Compilation.Classification
             using EntryWriter e = new EntryWriter(mem);
 
             e.Write(Name);
-            e.Write(Documents.Count);
+            e.Write(Count);
 
             foreach (Document doc in Documents)
             {
@@ -74,6 +75,7 @@ namespace Dialang.Compilation.Classification
 
                 if (buf.Valid)
                 {
+                    Count += buf.Entries.Count;
                     log($"Loaded '{buf.Name}'!");
                     log("");
                     docs.Add(buf);
