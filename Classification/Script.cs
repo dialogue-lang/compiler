@@ -47,19 +47,19 @@ namespace Dialang.Compilation.Classification
         public Script()
         {
             Text = "Cool test entry text over here!";
-            Events = new Event[] { new Event() };
-            Emotes = new Emote[] { new Emote() };
-            Formats = new Format[] { new Format() };
-            Pauses = new Pause[] { new Pause() };
+            Events = new Event[0];
+            Emotes = new Emote[0];
+            Formats = new Format[0];
+            Pauses = new Pause[0];
         }
 
         public Script(string text)
         {
             Text = text;
-            Events = new Event[] { new Event() };
-            Emotes = new Emote[] { new Emote() };
-            Formats = new Format[] { new Format() };
-            Pauses = new Pause[] { new Pause() };
+            Events = new Event[0];
+            Emotes = new Emote[0];
+            Formats = new Format[0];
+            Pauses = new Pause[0];
         }
 
         public Script(string text, Event[] events, Emote[] emotes, Format[] formats, Pause[] pauses)

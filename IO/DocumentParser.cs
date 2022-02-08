@@ -24,6 +24,7 @@ namespace Dialang.Compilation.IO
         private int read;
         private StringBuilder temp;
         private int tempStart;
+        private int offset;
 
         public Hashtable Parse()
         {
@@ -114,6 +115,7 @@ namespace Dialang.Compilation.IO
             PushCurrent();
             current = new Entry();
             line = 0;
+            offset = 0;
         }
 
         private void PushCurrent()
@@ -165,14 +167,17 @@ namespace Dialang.Compilation.IO
                     break;
 
                 case ParserState.Reading | ParserState.Combine:
+                    offset++;
                     temp.Append(c);
                     break;
 
                 case ParserState.Reading | ParserState.Emote:
+                    offset++;
                     temp.Append(c);
                     break;
 
                 case ParserState.Reading | ParserState.Event:
+                    offset++;
                     temp.Append(c);
                     break;
 
@@ -180,11 +185,13 @@ namespace Dialang.Compilation.IO
                     if (int.TryParse(new string(c, 1), out int i))
                     {
                         log($"Pause for {i / 4d:0.00} seconds.");
-                        current.Scripts[line].Add(new Pause(read, i));
+                        current.Scripts[line].Add(new Pause(read - offset - 2, i));
+                        offset++;
                     } else
                     {
                         b.Append(c);
                     }
+                    offset++;
 
                     state ^= ParserState.Pause;
                     break;
@@ -208,7 +215,8 @@ namespace Dialang.Compilation.IO
                     if (state.HasFlag(ParserState.Event))
                     {
                         state ^= ParserState.Event;
-                        current.Scripts[line].Add(new Event(temp.ToString(), tempStart));
+                        offset++;
+                        current.Scripts[line].Add(new Event(temp.ToString(), tempStart - offset));
                         log($"Event: {current.Scripts[line].Events[^1].Name}");
                         return true;
                     }
@@ -228,7 +236,8 @@ namespace Dialang.Compilation.IO
                     if (state.HasFlag(ParserState.Emote))
                     {
                         state ^= ParserState.Emote;
-                        current.Scripts[line].Add(new Emote(temp.ToString(), tempStart));
+                        current.Scripts[line].Add(new Emote(temp.ToString(), tempStart - offset));
+                        offset++;
                         log($"Emote: {current.Scripts[line].Emotes[^1].Name}");
                         return true;
                     }

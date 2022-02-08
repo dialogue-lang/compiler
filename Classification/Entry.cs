@@ -10,7 +10,7 @@ namespace Dialang.Compilation.Classification
         public int Add()
         {
             Script[] l = Scripts;
-            Array.Resize(ref l, 1);
+            Array.Resize(ref l, l.Length + 1);
             Scripts = l;
             Scripts[l.Length - 1] = new Script();
             return l.Length - 1;
@@ -19,7 +19,7 @@ namespace Dialang.Compilation.Classification
         public int Add(string text)
         {
             Script[] l = Scripts;
-            Array.Resize(ref l, 1);
+            Array.Resize(ref l, l.Length + 1);
             Scripts = l;
             Scripts[l.Length - 1] = new Script(text);
             return l.Length - 1;
