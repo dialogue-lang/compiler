@@ -46,6 +46,8 @@ namespace Dialang.Compilation.IO
                 return false;
 
             str = s.ReadLine();
+            offset = 0;
+
             if (str == null)
                 return false;
 
@@ -129,6 +131,7 @@ namespace Dialang.Compilation.IO
             using StringReader sr = new StringReader(str!);
             StringBuilder sb = new StringBuilder();
             line = current.Add();
+            offset = 0;
 
             while (sr.Peek() >= 0)
             {
