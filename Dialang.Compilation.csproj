@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net6.0;netstandard2.1</TargetFrameworks>
-    <AssemblyName>dialang_compiler</AssemblyName>
+    <AssemblyName>Dialang.Compilation</AssemblyName>
     <RootNamespace>Dialang.Compilation</RootNamespace>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>

@@ -11,6 +11,7 @@ namespace Dialang.Compilation.Classification
         public Emote[] Emotes { get; set; }
         public Format[] Formats { get; set; }
         public Pause[] Pauses { get; set; }
+        public Choice[] Choices { get; set; }
 
         public void Add(Event x)
         {
@@ -44,6 +45,14 @@ namespace Dialang.Compilation.Classification
             Pauses = a;
         }
 
+        public void Add(Choice x)
+        {
+            Choice[] a = Choices;
+            Array.Resize(ref a, a.Length + 1);
+            a[a.Length - 1] = x;
+            Choices = a;
+        }
+
         public Script()
         {
             Text = "Cool test entry text over here!";
@@ -51,6 +60,7 @@ namespace Dialang.Compilation.Classification
             Emotes = new Emote[0];
             Formats = new Format[0];
             Pauses = new Pause[0];
+            Choices = new Choice[0];
         }
 
         public Script(string text)
@@ -60,15 +70,17 @@ namespace Dialang.Compilation.Classification
             Emotes = new Emote[0];
             Formats = new Format[0];
             Pauses = new Pause[0];
+            Choices = new Choice[0];
         }
 
-        public Script(string text, Event[] events, Emote[] emotes, Format[] formats, Pause[] pauses)
+        public Script(string text, Event[] events, Emote[] emotes, Format[] formats, Pause[] pauses, Choice[] choices)
         {
             Text = text;
             Events = events;
             Emotes = emotes;
             Formats = formats;
             Pauses = pauses;
+            Choices = choices;
         }
 
         public override int GetHashCode()

@@ -198,6 +198,50 @@ namespace Dialang.Compilation.IO
 
                     state ^= ParserState.Pause;
                     break;
+
+                case ParserState.Reading | ParserState.Backslash:
+                    switch (c)
+                    {
+                        case 'r':
+                            offset++;
+                            state |= ParserState.Choice;
+                            break;
+
+                        case 'n':
+                            offset++;
+                            b.Append('\n');
+                            break;
+
+                        case '\\':
+                            offset++;
+                            b.Append(c);
+                            break;
+
+                        case ' ':
+                            offset++;
+                            b.Append(c);
+                            break;
+
+                        default:
+                            b.Append('\\');
+                            b.Append(c);
+                            break;
+                    }
+
+                    state ^= ParserState.Backslash;
+                    break;
+
+                case ParserState.Reading | ParserState.Choice:
+                    if (c == '\\')
+                    {
+                        current.Scripts[line].Add(new Choice(current.Scripts[line].Choices.Length, temp.ToString()));
+                        state ^= ParserState.Choice;
+                    } else
+                    {
+                        offset++;
+                        temp.Append(c);
+                    }
+                    break;
             }
         }
 
@@ -282,6 +326,15 @@ namespace Dialang.Compilation.IO
                     if (!state.HasFlag(ParserState.Pause))
                     {
                         state |= ParserState.Pause;
+                        return true;
+                    }
+
+                    return false;
+
+                case '\\':
+                    if (state == ParserState.Reading)
+                    {
+                        state |= ParserState.Backslash;
                         return true;
                     }
 

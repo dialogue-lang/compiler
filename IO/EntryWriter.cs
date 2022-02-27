@@ -129,6 +129,7 @@ namespace Dialang.Compilation.IO
             Write(x.Emotes.Length);
             Write(x.Formats.Length);
             Write(x.Pauses.Length);
+            Write(x.Choices.Length);
 
             foreach (Event y in x.Events)
             {
@@ -145,9 +146,14 @@ namespace Dialang.Compilation.IO
                 Write(y);
             }
 
-            foreach (Pause e in x.Pauses)
+            foreach (Pause y in x.Pauses)
             {
-                Write(e);
+                Write(y);
+            }
+
+            foreach (Choice y in x.Choices)
+            {
+                Write(y);
             }
         }
 
@@ -174,6 +180,12 @@ namespace Dialang.Compilation.IO
         {
             Write(x.Start);
             Write(x.Length);
+        }
+
+        public void Write(Choice x)
+        {
+            Write(x.Index);
+            Write(x.Value);
         }
 
         #endregion
