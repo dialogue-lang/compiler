@@ -200,20 +200,19 @@ namespace Dialang.Compilation.IO
                     break;
 
                 case ParserState.Reading | ParserState.Backslash:
+                    offset++;
+
                     switch (c)
                     {
                         case 'r':
-                            offset++;
                             state |= ParserState.Choice;
                             break;
 
                         case 'n':
-                            offset++;
                             b.Append('\n');
                             break;
 
                         default:
-                            offset++;
                             b.Append(c);
                             break;
                     }
