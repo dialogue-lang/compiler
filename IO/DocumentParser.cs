@@ -212,18 +212,8 @@ namespace Dialang.Compilation.IO
                             b.Append('\n');
                             break;
 
-                        case '\\':
-                            offset++;
-                            b.Append(c);
-                            break;
-
-                        case ' ':
-                            offset++;
-                            b.Append(c);
-                            break;
-
                         default:
-                            b.Append('\\');
+                            offset++;
                             b.Append(c);
                             break;
                     }
@@ -247,6 +237,9 @@ namespace Dialang.Compilation.IO
 
         private bool ReadCheck(char c)
         {
+            if (Contains(state, ParserState.BackslashReliant))
+                return false;
+
             switch (c)
             {
                 case '{':
@@ -355,6 +348,11 @@ namespace Dialang.Compilation.IO
             }
 
             return false;
+        }
+
+        private bool Contains(ParserState x, ParserState y)
+        {
+            return (x & y) != 0;
         }
 
         public void Dispose()

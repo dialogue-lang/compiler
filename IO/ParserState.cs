@@ -23,5 +23,6 @@ namespace Dialang.Compilation.IO
         Format = FormatBold | FormatItalic | FormatUnder | FormatStrike,
         Backslash = 1024,
         Choice = 2048,
+        BackslashReliant = Choice,
     }
 }
