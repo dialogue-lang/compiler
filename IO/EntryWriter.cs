@@ -89,7 +89,7 @@ namespace Dialang.Compilation.IO
         public void Write(string x)
         {
             s.Write(BitConverter.GetBytes(x.Length));
-            s.Write(Encoding.UTF8.GetBytes(x));
+            s.Write(Encoding.Unicode.GetBytes(x));
         }
 
         public void Write(string x, Encoding enc)
@@ -130,6 +130,7 @@ namespace Dialang.Compilation.IO
             Write(x.Formats.Length);
             Write(x.Pauses.Length);
             Write(x.Choices.Length);
+            Write(x.Combines.Length);
 
             foreach (Event y in x.Events)
             {
@@ -152,6 +153,11 @@ namespace Dialang.Compilation.IO
             }
 
             foreach (Choice y in x.Choices)
+            {
+                Write(y);
+            }
+
+            foreach (Combine y in x.Combines)
             {
                 Write(y);
             }
@@ -186,6 +192,12 @@ namespace Dialang.Compilation.IO
         {
             Write(x.Index);
             Write(x.Value);
+        }
+
+        public void Write(Combine x)
+        {
+            Write(x.Start);
+            Write(x.End);
         }
 
         #endregion

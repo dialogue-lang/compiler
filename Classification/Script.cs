@@ -12,6 +12,7 @@ namespace Dialang.Compilation.Classification
         public Format[] Formats { get; set; }
         public Pause[] Pauses { get; set; }
         public Choice[] Choices { get; set; }
+        public Combine[] Combines { get; set; }
 
         public void Add(Event x)
         {
@@ -53,6 +54,14 @@ namespace Dialang.Compilation.Classification
             Choices = a;
         }
 
+        public void Add(Combine x)
+        {
+            Combine[] a = Combines;
+            Array.Resize(ref a, a.Length + 1);
+            a[a.Length - 1] = x;
+            Combines = a;
+        }
+
         public Script()
         {
             Text = "Cool test entry text over here!";
@@ -61,6 +70,7 @@ namespace Dialang.Compilation.Classification
             Formats = new Format[0];
             Pauses = new Pause[0];
             Choices = new Choice[0];
+            Combines = new Combine[0];
         }
 
         public Script(string text)
@@ -71,9 +81,10 @@ namespace Dialang.Compilation.Classification
             Formats = new Format[0];
             Pauses = new Pause[0];
             Choices = new Choice[0];
+            Combines = new Combine[0];
         }
 
-        public Script(string text, Event[] events, Emote[] emotes, Format[] formats, Pause[] pauses, Choice[] choices)
+        public Script(string text, Event[] events, Emote[] emotes, Format[] formats, Pause[] pauses, Choice[] choices, Combine[] combines)
         {
             Text = text;
             Events = events;
@@ -81,6 +92,7 @@ namespace Dialang.Compilation.Classification
             Formats = formats;
             Pauses = pauses;
             Choices = choices;
+            Combines = combines;
         }
 
         public override int GetHashCode()

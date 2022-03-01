@@ -308,8 +308,8 @@ namespace Dialang.Compilation.IO
                         return true;
                     } else
                     {
-                        //current.Lines[line].Add(new Combine(tempStart, temp.Length));
-                        log($"Combine: {temp.ToString()}");
+                        current.Scripts[line].Add(new Combine(tempStart, tempStart + temp.Length - offset));
+                        log($"Combine: {temp}");
                         state ^= ParserState.Combine;
                         return true;
                     }
