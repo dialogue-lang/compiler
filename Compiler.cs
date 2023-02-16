@@ -6,7 +6,7 @@ using Dialang.Compilation.Exceptions;
 namespace Dialang.Compilation
 {
     public delegate void LoggingHandle(string msg);
-    public sealed class Compiler
+    public sealed class ProjectCompiler
     {
         public Project Project { get; }
 
@@ -17,7 +17,7 @@ namespace Dialang.Compilation
             return dir;
         }
 
-        public CompileResult Compile(string output)
+        public CompileResult Compile(string output, LoggingHandle log)
         {
             try
             {
@@ -26,7 +26,7 @@ namespace Dialang.Compilation
                     Directory.CreateDirectory(dir);
 
                 using FileStream fs = File.Create($"{TrimEndingDirectorySeparator(output)}\\{Project.Name}.dlg");
-                byte[] bin = Project.Compile();
+                byte[] bin = Project.GetByteCode(log);
                 fs.Write(bin, 0, bin.Length);
                 return new CompileResult("Success.");
             } catch (System.Exception ex)
@@ -35,7 +35,7 @@ namespace Dialang.Compilation
             }
         }
 
-        public Compiler(string input, LoggingHandle log)
+        public ProjectCompiler(string input, LoggingHandle log)
         {
             if (!File.Exists(input))
                 throw new FileNotFoundException($"Could not find the project file at '{input}'.");

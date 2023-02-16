@@ -11,12 +11,12 @@ namespace Dialang.Compilation.Classification
         public bool Valid { get; }
         public string Name { get; }
         public string Text { get; }
-        public Hashtable Entries { get; }
+        public Dictionary<string, Entry> Entries { get; }
 
-        internal Document(FileInfo info, LoggingHandle log)
+        public Document(string name, string content, LoggingHandle log)
         {
-            Name = info.Name;
-            Text = File.ReadAllText(info.FullName);
+            Name = name;
+            Text = content;
             log($"Parsing '{Name}'...");
 
             using (DocumentParser p = new DocumentParser(Text, log))
@@ -31,6 +31,10 @@ namespace Dialang.Compilation.Classification
                     Valid = false;
                 }
             }
+        }
+
+        internal Document(FileInfo info, LoggingHandle log) : this(info.Name, File.ReadAllText(info.FullName), log)
+        {
         }
     }
 }

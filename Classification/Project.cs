@@ -13,7 +13,6 @@ namespace Dialang.Compilation.Classification
         public const string FileSearch = "*.dlgscr";
         public const string CompiledExtension = ".dlg";
 
-        private LoggingHandle log;
         private byte[] cache;
         private double elapsed;
 
@@ -23,9 +22,8 @@ namespace Dialang.Compilation.Classification
         public int Count { get; }
         public double Elapsed => elapsed;
 
-        public byte[] Compile()
+        public byte[] GetByteCode(LoggingHandle log)
         {
-            log("Beginning project compilation...");
             if (cache != null)
             {
                 log("Previous build was found, returning cache...");
@@ -36,25 +34,43 @@ namespace Dialang.Compilation.Classification
             sw.Start();
 
             using MemoryStream mem = new MemoryStream();
-            using EntryWriter e = new EntryWriter(mem);
+            Write(mem, log);
+            cache = mem.ToArray();
+
+            return cache;
+        }
+
+        public void Write(Stream output, LoggingHandle log, bool free = false)
+        {
+            log("Beginning project compilation...");
+
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
+            using EntryWriter e = new EntryWriter(output);
 
             e.Write(Name);
             e.Write(Count);
 
             foreach (Document doc in Documents)
-            {
                 e.Write(doc);
-            }
-
             sw.Stop();
-            elapsed += sw.Elapsed.TotalSeconds;
-            cache = mem.ToArray();
-            log($"Finished compiling into {cache.Length / 1000d:0.00}KB in {sw.Elapsed.TotalSeconds:0.00}s");
 
-            return cache;
+            elapsed += sw.Elapsed.TotalSeconds;
+            log($"Finished compiling in {sw.Elapsed.TotalSeconds:0.00}s");
+
+            if (free)
+                output.Dispose();
         }
 
-        internal Project(string path, string name, LoggingHandle log)
+        public Project(IEnumerable<Document> documents)
+        {
+            Documents = new List<Document>(documents);
+        }
+
+        public Project(params Document[] documents) : this((IEnumerable<Document>)documents) { }
+
+        public Project(string path, string name, LoggingHandle log)
         {
             if (!Directory.Exists(path) || File.Exists(System.IO.Path.Combine(path, name)))
                 throw new InvalidProjectException(path, name);
@@ -87,8 +103,6 @@ namespace Dialang.Compilation.Classification
             sw.Stop();
             elapsed = sw.Elapsed.TotalSeconds;
             log($"Finished loading in '{elapsed:0.00} seconds.'");
-
-            this.log = log;
         }
     }
 }

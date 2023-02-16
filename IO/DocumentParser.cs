@@ -17,7 +17,7 @@ namespace Dialang.Compilation.IO
         private string str;
         private ParserState state;
         private bool disposed;
-        private Hashtable entries;
+        private Dictionary<string, Entry> entries;
         private Entry current;
         private int line;
         private bool reset;
@@ -26,7 +26,7 @@ namespace Dialang.Compilation.IO
         private int tempStart;
         private int offset;
 
-        public Hashtable Parse()
+        public Dictionary<string, Entry> Parse()
         {
             while (Next())
                 Thread.Yield();
@@ -367,7 +367,7 @@ namespace Dialang.Compilation.IO
         public DocumentParser(string str, LoggingHandle log)
         {
             s = new StringReader(str);
-            entries = new Hashtable();
+            entries = new Dictionary<string, Entry>();
             current = new Entry();
             temp = new StringBuilder();
             tempStart = 0;

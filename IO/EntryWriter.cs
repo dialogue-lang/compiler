@@ -104,10 +104,8 @@ namespace Dialang.Compilation.IO
 
         public void Write(Document x)
         {
-            foreach (object k in x.Entries.Values)
-            {
-                Write((Entry)k);
-            }
+            foreach (Entry k in x.Entries.Values)
+                Write(k);
         }
 
         public void Write(Entry x)
@@ -116,9 +114,7 @@ namespace Dialang.Compilation.IO
 
             Write(x.Scripts.Length);
             foreach (Script l in x.Scripts)
-            {
                 Write(l);
-            }
         }
 
         public void Write(Script x)
@@ -133,34 +129,22 @@ namespace Dialang.Compilation.IO
             Write(x.Combines.Length);
 
             foreach (Event y in x.Events)
-            {
                 Write(y);
-            }
 
             foreach (Emote y in x.Emotes)
-            {
                 Write(y);
-            }
 
             foreach (Format y in x.Formats)
-            {
                 Write(y);
-            }
 
             foreach (Pause y in x.Pauses)
-            {
                 Write(y);
-            }
 
             foreach (Choice y in x.Choices)
-            {
                 Write(y);
-            }
 
             foreach (Combine y in x.Combines)
-            {
                 Write(y);
-            }
         }
 
         public void Write(Event x)
